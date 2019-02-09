@@ -11,7 +11,10 @@ import pandas as pd
 
 
 def feature_extractor(X):
-    
+    '''
+        Extract some new features from the dataset. 
+        X: Dataset (without labels)
+    '''
     X['Month'] = X.Date.dt.month
     X['Year'] = X.Date.dt.year
     X['Day'] = X.Date.dt.day
@@ -26,9 +29,13 @@ def feature_extractor(X):
     
     
 def train(X_train, y_train, model):
-    
-    
+    '''
+        Train and save the model.
+        X_train, y_train: Training set
+        model: the chosen model
+    '''
     model.fit(X_train, y_train)
     
-    pickle.dump(model)
-    
+    # Save the trained model
+    output = open('model.pkl', 'wb')
+    pickle.dump(model, output)
