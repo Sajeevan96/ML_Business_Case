@@ -42,8 +42,8 @@ def train(X_train, y_train, model):
     '''
     for i in range(4):
         model.fit(X_train, y_train)
+        print("{} trees\t oob_score {}".format(model.n_estimators, model.oob_score_))
         model.n_estimators +=10
-        print("{} trees\t oob_score {}".format(i*10+10, model.oob_score_))
         
     #plt.plot(model.oob_score_)
     # Save the trained model
