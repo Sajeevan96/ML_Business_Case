@@ -42,7 +42,11 @@ def train(X_train, y_train, model):
         X_train, y_train: Training set
         model: the chosen model
     '''
-    model.fit(X_train, y_train)
+    for i in range(2):
+        model.fit(X_train, y_train)
+        model.n_estimators +=10
+        print("{} trees\t oob_score {}".format(i*10+10, model.oob_score_))
+        
     #plt.plot(model.oob_score_)
     # Save the trained model
     output = open('model.pkl', 'wb')
