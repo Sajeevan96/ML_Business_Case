@@ -4,11 +4,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-def feature_extractor(X):
+def feature_extractor(df):
     '''
         Extract some new features from the dataset. 
         X: Dataset (without labels)
     '''
+    
+    # Drop 0 labels
+    df = df[df.Sales != 0]
+    
+    X = df.loc[:, df.columns != "Sales"]
+    y = df["Sales"]
     # add some distincts columns for Month, Year and Day 
     X['Month'] = X.Date.dt.month
     X['Year'] = X.Date.dt.year
@@ -19,11 +25,11 @@ def feature_extractor(X):
     # remove the Date's column 
     X = X.drop('Date', 1)
     
-    # Drop 0 labels
-    X = X[X['Sales'] != 0]
-    
     # Drop Customers
-    train_store = train_store.drop('Customers', 1)
+    X = X.drop('Customers', 1)
+    
+    # Drop Open
+    X = X.drop('Open', 1)
     
     # calculate how long the nearest competitor has been opened
     X['Competition_Duration'] = 12 *(X.Year - X.CompetitionOpenSinceYear) *(X.CompetitionOpenSinceYear>0) + (X.Month - X.CompetitionOpenSinceMonth) *(X.CompetitionOpenSinceMonth>0)
@@ -31,13 +37,19 @@ def feature_extractor(X):
     # calculate the duration of Promo2
     X['Promo_Duration'] = 12 *(X.Year - X.Promo2SinceYear) *(X.Promo2SinceYear>0) + (X.Week - X.Promo2SinceWeek) *(X.Promo2SinceWeek>0)
     
+    X["CompetitionDistanceInt"] = X.CompetitionDistance.copy()
+    intervalle_distance = np.array([45000, 30000, 18000, 10000, 4000, 1500, 500])
+    X.CompetitionDistanceInt[X.CompetitionDistanceInt <= 500] = len(intervalle_distance)
+    for i in range(len(intervalle_distance)):
+        X.CompetitionDistanceInt[X.CompetitionDistanceInt > intervalle_distance[i]] = i
+    
     # remove some columns 
     X = X.drop('CompetitionOpenSinceYear', 1)
     X = X.drop('CompetitionOpenSinceMonth', 1)
     X = X.drop('Promo2SinceYear', 1)
     X = X.drop('Promo2SinceWeek', 1)
-
-    return X
+    
+    return X, y
 
 
 def split_dataset(X, y, test_size=0.33):

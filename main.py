@@ -7,8 +7,8 @@ from sklearn.ensemble import RandomForestRegressor
 
 ##### Feature extraction #####
 
-X, y = preprocessing("./datasets/entreprise_1/")
-X = feature_extractor(X)
+df = preprocessing("./datasets/entreprise_1/")
+X, y = feature_extractor(df)
 
 # ##### Train step #####
 

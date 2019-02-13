@@ -21,7 +21,10 @@ def preprocessing(path):
     # Convert Data feature from object to datetime type.
     train_store['Date'] = pd.to_datetime(train_store.Date,
                format='%Y-%m-%d', errors='coerce')
-
+    
+    # Drop 0 labels
+    train_store = train_store[train_store.Open != 0]
+    
     # Complete the CompetitionDistance column values by the median value 
     # (replacing NaN values by the median value).
     train_store.CompetitionDistance.fillna(train_store.CompetitionDistance.median(), inplace=True)
@@ -34,14 +37,10 @@ def preprocessing(path):
     train_store.CompetitionOpenSinceMonth.fillna(0, inplace=True)
     train_store.Promo2SinceWeek.fillna(0, inplace=True)
     train_store.Promo2SinceYear.fillna(0, inplace=True)
-    
-    # Drop some columns that are not relevant.
-    #train_store = train_store.drop(['CompetitionOpenSinceMonth', 'CompetitionOpenSinceYear','Promo2SinceWeek',
-     #                'Promo2SinceYear'], axis=1)
      
     # Get Features and Labels
-    X = train_store.loc[:, train_store.columns != "Sales"]
-    Y = np.log(train_store.Sales) #train_store.Sales
+    #X = train_store.loc[:, train_store.columns != "Sales"]
+    #Y = train_store.Sales
 
 
     ##### Label Encoding #####
@@ -50,6 +49,6 @@ def preprocessing(path):
     encoder = LabelEncoder()
 
     for label in features_to_encode:
-        X[label] = encoder.fit_transform(X[label])
+        train_store[label] = encoder.fit_transform(train_store[label])
         
-    return X, Y
+    return train_store
