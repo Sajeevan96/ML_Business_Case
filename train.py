@@ -19,7 +19,6 @@ def feature_extractor(X):
     # remove the Date's column 
     X = X.drop('Date', 1)
     
-    
     # calculate how long the nearest competitor has been opened
     X['Competition_Duration'] = 12 *(X.Year - X.CompetitionOpenSinceYear) *(X.CompetitionOpenSinceYear>0) + (X.Month - X.CompetitionOpenSinceMonth) *(X.CompetitionOpenSinceMonth>0)
     
@@ -31,8 +30,7 @@ def feature_extractor(X):
     X = X.drop('CompetitionOpenSinceMonth', 1)
     X = X.drop('Promo2SinceYear', 1)
     X = X.drop('Promo2SinceWeek', 1)
-    
-    
+
     return X
     
     
