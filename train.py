@@ -2,6 +2,7 @@ from sklearn.ensemble import RandomForestRegressor
 import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 def feature_extractor(X):
     '''
@@ -32,8 +33,29 @@ def feature_extractor(X):
     X = X.drop('Promo2SinceWeek', 1)
 
     return X
-    
-    
+
+
+def split_dataset(X, y, test_size=0.33):
+    '''
+        Split data into train and test set
+        X: Dataset
+        y: Labels
+    '''
+    first_year = np.min(X.Year)
+    first_month =np.min(X[X.Year==first_year].Month)
+    X["nb_month"] = (X.Year-first_year) * 12 + (X.Month - first_month)
+    nb_months = len(np.unique(X.nb_month))
+    l = np.random.randint(0, nb_months, int(test_size * nb_months))
+    X_test = X[X.nb_month.isin(l)]
+    y_test = y[X_test.index]
+
+    X_train = X.drop(X_test.index)
+    y_train = y[X_train.index]
+
+    X_train = X_train.drop(["nb_month"], 1)
+    X_test = X_test.drop(["nb_month"], 1)
+    return X_train, X_test, y_train, y_test
+
 def train(X_train, y_train, model):
     '''
         Train and save the model.
