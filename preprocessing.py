@@ -15,7 +15,7 @@ def preprocessing(path):
     del(train)
     del(store)
 
-    # Replace the '0' values by 0 as StateHoliday is a quantitative feature.
+    # Replace the 0 values by '0' as StateHoliday is a categorical feature (with string values).
     train_store.StateHoliday.replace(0, '0', inplace=True)
 
     # Convert Data feature from object to datetime type.
