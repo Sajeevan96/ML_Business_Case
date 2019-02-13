@@ -1,1 +1,5 @@
-# ML_Business_Case
+# Machine Learning - Business Case
+
+#### Manon CESAIRE - Alann CHERAL - Yanis DACI - Clément HARDY - Sajeevan PUVIKARAN
+
+ROSSMAN STORES @ KAGGLE
