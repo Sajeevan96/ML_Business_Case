@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb  9 13:06:17 2019
-
-@author: Sajeevan
-"""
-
-
 from preprocessing import preprocessing
 from train import feature_extractor, train
 from predict import predict

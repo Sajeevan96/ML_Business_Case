@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb  7 16:19:27 2019
-
-@author: Clement_X240
-"""
-
 from sklearn.ensemble import RandomForestRegressor
 import pickle
 import pandas as pd

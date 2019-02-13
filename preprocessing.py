@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb  7 16:11:25 2019
-
-@author: Clement_X240
-"""
-
 import pandas as pd
 import os
 from sklearn.preprocessing import LabelEncoder
@@ -31,6 +24,9 @@ def preprocessing(path):
     # Complete the CompetitionDistance column values by the median value 
     # (replacing NaN values by the median value).
     train_store.CompetitionDistance.fillna(train_store.CompetitionDistance.median(), inplace=True)
+
+    # Drop 0 labels
+    train_store = train_store[train_store['Sales'] != 0]
 
     # Replace the NaN values by 'None'. It will help us to do label encoding below.
     train_store.PromoInterval.fillna('None', inplace=True)
