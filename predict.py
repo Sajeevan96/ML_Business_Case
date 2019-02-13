@@ -39,8 +39,8 @@ def predict(X_train, X_test, y_train, y_test):
     
     #cv = get_cv(X_test, y_test)
     #results = cross_validate(pipe, X, y, scoring=['f1_weighted'], cv=cv,
-                            verbose=1, return_train_score=True,
-                            n_jobs=1)
+                            #verbose=1, return_train_score=True,
+                            #n_jobs=1)
     return("Training RMSE: %s \n Testing RMSE: %s" % (rmse(y_train, y_pred), 
                                                       rmse(y_test, y_pred_test)))
     
