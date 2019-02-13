@@ -19,11 +19,7 @@ def feature_extractor(X):
     # remove the Date's column 
     X = X.drop('Date', 1)
     
-    # calculate monthly/weekly/daily average customers
-    X['AVG_Month'] = X[['Year','Month','Customers']].groupby(['Year','Month']).transform('mean')
-    X['AVG_Week'] = X[['Year','Week','Customers']].groupby(['Year','Week']).transform('mean')
-    X['AVG_Day'] = X[['Year','DayOfWeek','Customers']].groupby(['Year','DayOfWeek']).transform('mean')
-
+    
     # calculate how long the nearest competitor has been opened
     X['Competition_Duration'] = 12 *(X.Year - X.CompetitionOpenSinceYear) *(X.CompetitionOpenSinceYear>0) + (X.Month - X.CompetitionOpenSinceMonth) *(X.CompetitionOpenSinceMonth>0)
     
@@ -36,6 +32,7 @@ def feature_extractor(X):
     X = X.drop('Promo2SinceYear', 1)
     X = X.drop('Promo2SinceWeek', 1)
     
+    
     return X
     
     
@@ -45,7 +42,7 @@ def train(X_train, y_train, model):
         X_train, y_train: Training set
         model: the chosen model
     '''
-    for i in range(2):
+    for i in range(4):
         model.fit(X_train, y_train)
         model.n_estimators +=10
         print("{} trees\t oob_score {}".format(i*10+10, model.oob_score_))

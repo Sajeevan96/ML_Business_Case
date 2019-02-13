@@ -27,6 +27,9 @@ def preprocessing(path):
 
     # Drop 0 labels
     train_store = train_store[train_store['Sales'] != 0]
+    
+    # Drop Customers
+    train_store = train_store.drop('Customers', 1)
 
     # Replace the NaN values by 'None'. It will help us to do label encoding below.
     train_store.PromoInterval.fillna('None', inplace=True)
