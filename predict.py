@@ -13,14 +13,16 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics.scorer import make_scorer
 
 
-
-def rmse(y_true, y_pred):
+def rmspe(y_true, y_pred):
     '''
-        Compute the RMSE (Root Mean Square Error) metric.
+        Compute the RMSPE (Root Mean Square Percentage Error) metric.
         y_true:  True Sales (y) values
         y_pred: Predicted Sales (y) values by the model
     '''
-    return sqrt(mean_squared_error(y_true, y_pred))
+    diff = y_pred - y_true
+    diff_percentage = diff / y_true
+    diff_percentage_squared = diff_percentage ** 2
+    return sqrt(diff_percentage_squared.mean())
 
 
 def predict(X_train, X_test, y_train, y_test):
@@ -41,8 +43,8 @@ def predict(X_train, X_test, y_train, y_test):
     #results = cross_validate(pipe, X, y, scoring=['f1_weighted'], cv=cv,
                             #verbose=1, return_train_score=True,
                             #n_jobs=1)
-    return("Training RMSE: %s \n Testing RMSE: %s" % (rmse(y_train, y_pred), 
-                                                      rmse(y_test, y_pred_test)))
+    return("Training RMSPE: %s \n Testing RMSPE: %s" % (rmspe(y_train, y_pred), 
+                                                      rmspe(y_test, y_pred_test)))
     
 
     
