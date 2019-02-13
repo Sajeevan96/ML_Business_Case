@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
 # Read data from csv files
 
@@ -25,12 +26,6 @@ def preprocessing(path):
     # (replacing NaN values by the median value).
     train_store.CompetitionDistance.fillna(train_store.CompetitionDistance.median(), inplace=True)
 
-    # Drop 0 labels
-    train_store = train_store[train_store['Sales'] != 0]
-    
-    # Drop Customers
-    train_store = train_store.drop('Customers', 1)
-
     # Replace the NaN values by 'None'. It will help us to do label encoding below.
     train_store.PromoInterval.fillna('None', inplace=True)
     
@@ -46,7 +41,7 @@ def preprocessing(path):
      
     # Get Features and Labels
     X = train_store.loc[:, train_store.columns != "Sales"]
-    Y = train_store.Sales
+    Y = np.log(train_store.Sales) #train_store.Sales
 
 
     ##### Label Encoding #####

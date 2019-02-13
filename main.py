@@ -10,7 +10,6 @@ from sklearn.ensemble import RandomForestRegressor
 X, y = preprocessing("./datasets/entreprise_1/")
 X = feature_extractor(X)
 
-# Train, Test = split_dataset(X, y)
 # ##### Train step #####
 
 # Split data

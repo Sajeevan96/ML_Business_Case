@@ -16,9 +16,14 @@ def feature_extractor(X):
     
     # return a number indicating which week of the year the date falls in
     X['Week'] = X.Date.dt.weekofyear
-    
     # remove the Date's column 
     X = X.drop('Date', 1)
+    
+    # Drop 0 labels
+    X = X[X['Sales'] != 0]
+    
+    # Drop Customers
+    train_store = train_store.drop('Customers', 1)
     
     # calculate how long the nearest competitor has been opened
     X['Competition_Duration'] = 12 *(X.Year - X.CompetitionOpenSinceYear) *(X.CompetitionOpenSinceYear>0) + (X.Month - X.CompetitionOpenSinceMonth) *(X.CompetitionOpenSinceMonth>0)
